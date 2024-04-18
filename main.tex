@@ -1,0 +1,211 @@
+%% !TEX program = xelatex*2
+%% 最新的版本请参见Github @LeyuDame
+%% https://github.com/LeyuDame
+%% 本模板在overleaf上的链接（可能版本会旧一些） 
+%% https://www.overleaf.com/latex/templates/bnucv/stjnkyqdcqzm
+
+%% 本模板基于 https://github.com/Htallone/myCV 修改而来
+%% 原模板参考了https://www.wondercv.com/的模板
+\documentclass[11pt]{article}
+% disable indent globally
+\setlength{\parindent}{0pt}
+% some general improvements, defines the XeTeX logo
+\usepackage{xltxtra}
+\usepackage{bookmark}
+% use hyperlink for email and url
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+\usepackage{url}
+\urlstyle{tt}
+\usepackage{multicol}
+\usepackage{xcolor}
+%%%% 统一一种颜色，偏蓝色，用于section下划线和fontawesome
+\definecolor{CVBlue}{RGB}{45, 77, 152} % 从校徽上取的师大蓝
+%%另一种师大蓝{RGB}{0,77,255}
+%%% \widthof[]{} 用于特殊对齐是用到
+\usepackage{calc}
+%%%% 利用tikz来定位照片和学校Logo
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+% loading fonts
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\CJKsetecglue{} %% 取消中文与数字之间间隙
+%%%%% 字体需要自己下载安装，注意版权问题，这两种字体应该比较好看，英文Helvetica，中文方正兰亭黑，也是有多种版本，自己试试哪些好看。参考了https://www.wondercv.com/的模板
+%%%%% windows系统好像需要先安装字体，之后下面语句就够了
+%Main document font
+%\setmainfont[
+%  BoldFont = HelveticaNeueLTPro-Md.otf ,
+%]{HelveticaNeueLTPro-Roman.otf}
+%
+%\setCJKmainfont[
+%BoldFont=Pro_GB18030 DemiBold.otf,
+%]{Pro_GB18030.otf}
+%%%%% 字体需要自己下载安装，注意版权问题
+%%%%% linux系统只需要字体路径就行了，如下
+% % Main document font
+\setmainfont[
+Path = Font/,
+  Extension = .otf ,
+  BoldFont = HelveticaNeueLTPro-Md.otf ,
+]{HelveticaNeueLTPro-Roman.otf}
+\setCJKmainfont[
+Path = Font/,
+  Extension = .otf ,
+BoldFont=ProGB18030 DemiBold.otf,
+]{ProGB18030.otf}
+%%%%% 定义更漂亮的“C++”，参考https://tex.stackexchange.com/questions/4302/prettiest-way-to-typeset-c-cplusplus 
+%%%%% 貌似跟具体字体大小有关，需要调下参数，我测试感觉下面的比较好看
+\usepackage{relsize}
+\usepackage{xspace}
+\protected\def\Cpp{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.28ex}{\relsize{-1}++}}\xspace} 
+% use fontawesome
+\usepackage{fontawesome}
+%\newfontfamily{\FA}{[FontAwesome.otf]}
+\usepackage[
+	a4paper,
+	left=1.2cm,
+	right=1.2cm,
+	top=1.5cm,
+	bottom=1cm,
+	nohead
+]{geometry}
+\renewcommand{\baselinestretch}{1.2} %定义行间距1.2
+\usepackage{titlesec}
+\usepackage{enumitem}
+\setlist{noitemsep} % removes spacing from items but leaves space around the whole list
+%\setlist{nosep} % removes all vertical spacing within and around the list
+\setlist[itemize]{topsep=0.25em, leftmargin=*}
+\setlist[enumerate]{topsep=0.25em, leftmargin=*}
+\titleformat{\section}         % Customise the \section command 
+  {\large\bfseries\raggedright} % Make the \section headers large (\Large),
+                               % small capitals (\scshape) and left aligned (\raggedright)
+  {}{0em}                      % Can be used to give a prefix to all sections, like 'Section ...'
+  {}                           % Can be used to insert code before the heading
+  [{\color{CVBlue}\titlerule}]                 % Inserts a horizontal line after the heading
+\titlespacing*{\section}{0cm}{*1.6}{*1.2}
+\usepackage{siunitx}
+\usepackage{amssymb}
+%\xeCJKsetup{CJKspace=true}
+%\xeCJKDeclareCharClass{CJK}{`0 -> `9}    % 设置 0-9 以 CJK 字体输出
+%\normalspacedchars{0,1,2,3,4,5,6,7,8,9} % 0-9 的字符类被还原
+
+\begin{document}
+
+\pagenumbering{gobble} % suppress displaying page number
+%%%% 利用tikz来定位照片，部分招聘单位可能需要“以貌取人”
+\begin{tikzpicture}[remember picture, overlay]
+	\node[anchor = north east] at ($(current page.north east)+(-1cm,-1.2cm)$) {\includegraphics[height=2.8cm]{img/avatar.jpg}};
+\end{tikzpicture}%
+%%%% 利用tikz来定位学校Logo，这里只在第一页显示，如果需要每页都有，可以考虑在页眉、页脚或者background中加入，不过简历也就一两页，无所谓了
+\begin{tikzpicture}[remember picture, overlay]
+	\node[anchor = north west] at ($(current page.north west)+(0.2cm,-0.2cm)$) {\includegraphics[height=1.5cm]{img/BNU_name.pdf}};
+\end{tikzpicture}%
+%%%% 利用tikz来定位页脚栏，电子版简历使用，黑白纸质打印效果可能并不好。这里只在第一页显示，如果需要每页都有，页脚或者background中加入。
+\begin{tikzpicture}[remember picture, overlay]
+	\node[anchor = south,fill=CVBlue,draw=none,minimum width=\paperwidth,minimum height=1.5em,align=center,font=\footnotesize,text=white] at ($(current page.south)$)
+	{\faGithubAlt \ \href{https://github.com/leyudame}{https://github.com/leyudame}\qquad
+		\faRssSquare \ \href{https://leyudame.github.io}{https://leyudame.github.io} };
+\end{tikzpicture}
+
+%tikzpicture环境很敏感，注释周围的空格、空行都会引起水平距离或垂直距离的变化，
+%
+\centerline{\LARGE\bfseries{木小铎}}
+
+%\centerline{\normalsize{专业：数学与应用数学（公费师范）}}
+%\centerline{\normalsize{专业：汉语言文学（公费师范）}}
+
+\centerline{\normalsize{意向岗位：高中数学教师 \quad 专业：学科教学（数学）}}
+
+\centerline{\normalsize{
+		\faPhone \ 13X XXXX XXXX \quad
+		\faEnvelopeO \ \href{mailto:mxd@mail.bnu.edu.cn}{mxd@mail.bnu.edu.cn}}}
+%%最好用你的edu邮箱
+
+%\centerline{\normalsize{ 
+%  \faExternalLink \ \href{https://leyudame.github.io}{https://leyudame.github.io} \quad
+%  \faGithubAlt \ \href{https://github.com/leyudame}{https://github.com/leyudame}
+%  }}
+%  \vspace{1.5ex}
+
+\section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faGraduationCap}\  教育背景}
+
+\textbf{北京师范大学}（202X年9月至今）
+
+\qquad 硕士研究生 \quad 学科教学（数学），预计202X年6月毕业
+
+\textbf{北京师范大学}（20XX年9月 -- 20XX年7月）
+
+\qquad 本科 \quad 数学与应用数学
+
+\textbf{京海市高级中学}（20XX年9月 -- 20XX年7月） %\hfill 2017年9月 -- 2020年6月
+
+\qquad 曾获XX奖学金，最好成绩\textbf{总分年级第X，高考6XX}
+
+\section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faTrophy}\ 获奖情况}
+\begin{itemize}
+	\item 奖学金类：\textbf{国家奖学金}，\textbf{京师一等奖学金}（X次），\textbf{学业一等奖学金}（X次），\textbf{新生一等奖学金}
+	\item 专业类：XX竞赛\textbf{全国一等奖}，XX竞赛\textbf{全国二等奖}
+	\item 教学技能类： 未来教师素养大赛\textbf{一等奖}
+\end{itemize}
+
+
+\section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faFileText}\ 学习成绩}
+\textbf{绩点：$\mathsf{3.9_{/4}}$} \
+
+\textbf{专业排名前1\%}
+\begin{itemize}[parsep=0.5ex]
+	\item 数学类：数学分析99，高等代数96，解析几何96，常微分方程96，概率论95，测度论95，随机过程94，...
+	\item 教育类：教育学97，数学教学设计与案例分析95，中学数学教学概论92，...
+	\item 英语: 四级650 六级630 雅思7.0
+\end{itemize}
+
+
+\section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faUniversity}\ 实践经历}
+\textbf{教育实习}
+\begin{itemize}
+	\item \textbf{英国剑桥Meridian Primary School}（202X年9-10月）北师大海外中小学实习项目
+	\item \textbf{京海市高级中学}（202X年9-12月）担任2个班级的实习数学教师和1个班级的实习班主任
+	\item \textbf{京海小学}（202X年7月）担任支教队数学科组长，设计了《数学之美》系列课程
+\end{itemize}
+
+\textbf{交流项目}
+\begin{itemize}
+	\item XX大学(University of XX)（202X年X月）
+	\item YY大学(University of YY)（202X年X月）
+\end{itemize}
+
+%
+%% increase linespacing [parsep=0.5ex]
+%\begin{itemize}[parsep=0.5ex]
+%  \item 编程语言: C == Python > \Cpp > Java
+%  \item 平台: Linux
+%  \item 开发: 英语六级，博士期间阅读了大量专业英文文献、开源项目英文文档等。
+%\end{itemize}
+%
+
+\section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faUsers}\ 学生工作}
+\begin{itemize}
+	\item 学生会主席团成员，曾策划组织大型\LaTeX{}研讨会
+	\item 202X级数学与应用数学班团支部书记
+\end{itemize}
+
+\section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faWrench}\ 工作技能}
+
+\begin{itemize}
+	\item 教师资格证：高中数学，合格
+	\item 普通话证书：二级甲等
+	\item 文字排版：\LaTeX{}
+	\item 编程：Matlab，Python，R，Geogebra
+
+\end{itemize}
+
+\section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faTags}\ 其他}
+% increase linespacing [parsep=0.5ex]
+爱好特长：打篮球，以及给@LeyuDame的\LaTeX{}模板star$\sim$
+
+%%%% 如果多页简历，可以手动在适当位置插入 \newpage 或者 \clearpage 开始新一页
+
+\end{document}
+
